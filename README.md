@@ -1,6 +1,6 @@
-# Amazon Frontend
+# NovaMart Frontend
 
-A modern e-commerce frontend application built with Angular 19, inspired by Amazon's user interface. This project provides a comprehensive shopping experience with product browsing, cart management, and checkout functionality.
+A modern e-commerce frontend application built with Angular 19. This project provides a comprehensive shopping experience with product browsing, cart management, and checkout functionality.
 
 ## 🚀 Features
 
@@ -31,7 +31,7 @@ A modern e-commerce frontend application built with Angular 19, inspired by Amaz
 
    ```bash
    git clone https://github.com/mahmoud-the-dev/angular-ecommerce.git
-   cd amazon-frontend
+   cd angular-ecommerce
    ```
 
 2. Install dependencies:
@@ -107,6 +107,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
-- Design inspired by Amazon's user interface
+- NovaMart — modern e-commerce design
 - Icons provided by [Flowbite](https://flowbite.com/)
 - Product images and descriptions are used for demonstration purposes only
