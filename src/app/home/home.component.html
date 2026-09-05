@@ -92,9 +92,12 @@
     <article
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
-      @for (product of products$ | async; track product.id) {
+      @if (products$ | async; as products) { @for (product of products; track
+      product.id) {
       <app-home-product [product]="product" />
-      }
+      } } @else { @for (product of loadingProducts; track product) {
+      <app-home-product-loading />
+      } }
     </article>
   </section>
 </main>
