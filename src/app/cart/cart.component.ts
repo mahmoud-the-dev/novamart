@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartProductComponent } from './components/cart-product/cart-product.component';
 import { CurrencyPipe } from '@angular/common';
 import { CartProduct } from '../shared/models/cart-product';
-import { Title } from '@angular/platform-browser';
+import { SeoService } from '../core/services/seo.service';
 
 @Component({
   selector: 'app-cart',
@@ -13,10 +13,16 @@ export class CartComponent implements OnInit {
   cartProducts: CartProduct[] = [];
   total: number = 0;
 
-  constructor(private readonly title: Title) {}
+  constructor(private readonly seo: SeoService) {}
 
   ngOnInit(): void {
-    this.title.setTitle('Shopping Cart | NovaMart');
+    this.seo.update({
+      title: 'Shopping Cart | NovaMart',
+      description: 'Review the items in your NovaMart shopping cart before checkout.',
+      path: '/cart',
+      robots: 'noindex, follow',
+      type: 'website',
+    });
     this.updateCart();
   }
 

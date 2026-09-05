@@ -1,11 +1,11 @@
 import { Component, inject, input, OnInit } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { Product } from '../shared/models/product';
 import { CurrencyPipe, AsyncPipe } from '@angular/common';
 import { ProductService } from '../core/services/product.service';
 import { CartProduct } from '../shared/models/cart-product';
 import { Observable, tap } from 'rxjs';
 import { optimizedImageUrl } from '../shared/optimized-image-url';
+import { SeoService } from '../core/services/seo.service';
 
 @Component({
   selector: 'app-product',
@@ -15,18 +15,29 @@ import { optimizedImageUrl } from '../shared/optimized-image-url';
 export class ProductComponent implements OnInit{
   id = input<string>('');
   productService = inject(ProductService);
-  private meta = inject(Meta);
-  private title = inject(Title);
+  private seo = inject(SeoService);
   product$!: Observable<Product | undefined>;
   imageUrl = optimizedImageUrl;
 
   ngOnInit(): void {
-    this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });
-    this.title.setTitle('Product | NovaMart');
+    this.seo.update({
+      title: 'Product | NovaMart',
+      description: 'Browse product details at NovaMart.',
+      path: `/products/${this.id()}`,
+      robots: 'index, follow',
+      type: 'product',
+    });
     this.product$ = this.productService.getById(this.id()).pipe(
       tap((product) => {
         if (product) {
-          this.title.setTitle(`${product.name} | NovaMart`);
+          this.seo.update({
+            title: `${product.name} | NovaMart`,
+            description: product.description.replace(/<[^>]*>/g, ' '),
+            path: `/products/${product.id}`,
+            robots: 'index, follow',
+            type: 'product',
+            image: product.urlImg,
+          });
         }
       })
     );

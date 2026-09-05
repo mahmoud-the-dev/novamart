@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ProductOfferComponent } from '../shared/components/product-offer/product-offer.component';
 import { Product } from '../shared/models/product';
 import { HomeProductComponent } from './components/home-product/home-product.component';
@@ -8,6 +7,7 @@ import { ProductService } from '../core/services/product.service';
 import { AsyncPipe } from '@angular/common';
 import { Observable, tap } from 'rxjs';
 import { initCarousels } from 'flowbite/lib/esm/components/carousel';
+import { SeoService } from '../core/services/seo.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +21,7 @@ import { initCarousels } from 'flowbite/lib/esm/components/carousel';
 })
 export class HomeComponent implements OnInit {
   productService = inject(ProductService);
-  titleService = inject(Title);
+  seo = inject(SeoService);
 
   products$: Observable<Product[]> = this.productService.getAll();
   productOffers$: Observable<Product[]>;
@@ -40,7 +40,14 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('NovaMart');
+    this.seo.update({
+      title: 'NovaMart',
+      description:
+        'Shop the latest electronics, gaming gear, smart devices, and accessories at NovaMart. Discover top-rated tech and great deals on popular products.',
+      path: '/',
+      robots: 'index, follow',
+      type: 'website',
+    });
   }
 
   private initializeFlowbite(): void {
