@@ -5,11 +5,12 @@
       <div class="relative size-64 sm:size-72 lg:size-96">
         @if (product?.urlImg) {
         <img
-          class="object-contain object-center"
+          class="size-full object-contain object-center"
           [src]="product.urlImg"
-          alt="Product Image"
-          priority
-          fill
+          [alt]="product.name"
+          width="384"
+          height="384"
+          fetchpriority="high"
         />
         }@else {
         <img
