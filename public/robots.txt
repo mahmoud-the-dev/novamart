@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://novamart-shop.vercel.app/sitemap.xml
