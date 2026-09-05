@@ -1,10 +1,10 @@
 import { Component, inject, input, OnInit } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { Product } from '../shared/models/product';
 import { CurrencyPipe, AsyncPipe } from '@angular/common';
 import { ProductService } from '../core/services/product.service';
 import { CartProduct } from '../shared/models/cart-product';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { optimizedImageUrl } from '../shared/optimized-image-url';
 
 @Component({
@@ -16,12 +16,20 @@ export class ProductComponent implements OnInit{
   id = input<string>('');
   productService = inject(ProductService);
   private meta = inject(Meta);
+  private title = inject(Title);
   product$!: Observable<Product | undefined>;
   imageUrl = optimizedImageUrl;
 
   ngOnInit(): void {
     this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });
-    this.product$ = this.productService.getById(this.id());
+    this.title.setTitle('Product | NovaMart');
+    this.product$ = this.productService.getById(this.id()).pipe(
+      tap((product) => {
+        if (product) {
+          this.title.setTitle(`${product.name} | NovaMart`);
+        }
+      })
+    );
   }
 
   addToCart(product: Product) {
