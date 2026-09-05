@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ProductOfferComponent } from '../shared/components/product-offer/product-offer.component';
 import { Product } from '../shared/models/product';
@@ -6,7 +6,7 @@ import { HomeProductComponent } from './components/home-product/home-product.com
 import { ProductService } from '../core/services/product.service';
 import { AsyncPipe } from '@angular/common';
 import { Observable, tap } from 'rxjs';
-import { initFlowbite } from 'flowbite';
+import { initCarousels } from 'flowbite/lib/esm/components/carousel';
 
 @Component({
   selector: 'app-home',
@@ -15,20 +15,17 @@ import { initFlowbite } from 'flowbite';
 })
 export class HomeComponent implements OnInit {
   productService = inject(ProductService);
-  cdr = inject(ChangeDetectorRef);
   titleService = inject(Title);
 
   products$: Observable<Product[]> = this.productService.getAll();
   productOffers$: Observable<Product[]>;
 
-  private offersLoaded = false;
   private flowbiteInitialized = false;
 
   constructor() {
     this.productOffers$ = this.productService.getOffers().pipe(
       tap((offers) => {
         if (offers && offers.length > 0) {
-          this.offersLoaded = true;
           setTimeout(() => this.initializeFlowbite(), 0);
         }
       })
@@ -41,10 +38,8 @@ export class HomeComponent implements OnInit {
 
   private initializeFlowbite(): void {
     if (!this.flowbiteInitialized) {
-      console.log('Initializing Flowbite...');
-      initFlowbite();
+      initCarousels();
       this.flowbiteInitialized = true;
-      this.cdr.detectChanges();
     }
   }
 }

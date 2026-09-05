@@ -1,5 +1,4 @@
 @import "tailwindcss";
 @import "flowbite/src/themes/default";
 @plugin "flowbite/plugin";
-@plugin "flowbite-typography";
-@source "../node_modules/flowbite";
+@source "../node_modules/flowbite/lib/esm/components/carousel";
