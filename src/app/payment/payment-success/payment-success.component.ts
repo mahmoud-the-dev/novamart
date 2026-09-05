@@ -15,9 +15,23 @@ export class PaymentSuccessComponent implements OnInit {
 
   ngOnInit(): void {
     this.title.setTitle('Order Confirmation | NovaMart');
-    const cartProducts: CartProduct[] = JSON.parse(
-      localStorage.getItem('cart-products') as string
-    );
+    const storedCartProducts = localStorage.getItem('cart-products');
+
+    if (!storedCartProducts) {
+      return;
+    }
+
+    let cartProducts: CartProduct[];
+
+    try {
+      cartProducts = JSON.parse(storedCartProducts);
+    } catch {
+      return;
+    }
+
+    if (!Array.isArray(cartProducts) || cartProducts.length === 0) {
+      return;
+    }
 
     const mappedProducts = cartProducts.map(({ quantity, product }) => {
       return {
@@ -30,15 +44,11 @@ export class PaymentSuccessComponent implements OnInit {
       return acc + current.product.price * current.quantity;
     }, 0);
 
-    localStorage.removeItem('cart-products');
-
     this.purchaseService.save({ total, products: mappedProducts }).subscribe({
       next: () => {
-        console.log('Purchase saved successfully');
+        localStorage.removeItem('cart-products');
       },
-      error: () => {
-        // -> redirect
-      },
+      error: () => {},
     });
   }
 }
