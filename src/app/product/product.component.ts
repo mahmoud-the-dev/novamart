@@ -30,13 +30,30 @@ export class ProductComponent implements OnInit{
     this.product$ = this.productService.getById(this.id()).pipe(
       tap((product) => {
         if (product) {
+          const description = product.description.replace(/<[^>]*>/g, ' ');
+
           this.seo.update({
             title: `${product.name} | NovaMart`,
-            description: product.description.replace(/<[^>]*>/g, ' '),
+            description,
             path: `/products/${product.id}`,
             robots: 'index, follow',
             type: 'product',
             image: product.urlImg,
+          });
+          this.seo.setStructuredData({
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: product.name,
+            description,
+            image: product.urlImg,
+            offers: {
+              '@type': 'Offer',
+              url: `https://novamart-shop.vercel.app/products/${encodeURIComponent(product.id)}`,
+              priceCurrency: 'USD',
+              price: product.price,
+              availability: 'https://schema.org/InStock',
+              itemCondition: 'https://schema.org/NewCondition',
+            },
           });
         }
       })

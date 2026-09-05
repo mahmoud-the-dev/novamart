@@ -11,6 +11,8 @@ interface SeoPage {
   image?: string;
 }
 
+type StructuredData = Record<string, unknown>;
+
 @Injectable({ providedIn: 'root' })
 export class SeoService {
   private readonly document = inject(DOCUMENT);
@@ -20,6 +22,8 @@ export class SeoService {
 
   update(page: SeoPage): void {
     const url = new URL(page.path, this.origin).toString();
+
+    this.document.getElementById('page-structured-data')?.remove();
 
     this.title.setTitle(page.title);
     this.meta.updateTag({ name: 'description', content: page.description });
@@ -52,6 +56,14 @@ export class SeoService {
     }
 
     canonical.href = url;
+  }
+
+  setStructuredData(data: StructuredData): void {
+    const script = this.document.createElement('script');
+    script.id = 'page-structured-data';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(data).replace(/</g, '\\u003c');
+    this.document.head.append(script);
   }
 
   private updateProperty(property: string, content: string): void {
