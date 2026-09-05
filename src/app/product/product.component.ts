@@ -5,6 +5,7 @@ import { CurrencyPipe, AsyncPipe } from '@angular/common';
 import { ProductService } from '../core/services/product.service';
 import { CartProduct } from '../shared/models/cart-product';
 import { Observable } from 'rxjs';
+import { optimizedImageUrl } from '../shared/optimized-image-url';
 
 @Component({
   selector: 'app-product',
@@ -16,6 +17,7 @@ export class ProductComponent implements OnInit{
   productService = inject(ProductService);
   private meta = inject(Meta);
   product$!: Observable<Product | undefined>;
+  imageUrl = optimizedImageUrl;
 
   ngOnInit(): void {
     this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });

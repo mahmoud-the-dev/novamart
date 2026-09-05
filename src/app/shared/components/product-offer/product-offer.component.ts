@@ -2,6 +2,7 @@ import { CurrencyPipe, PercentPipe } from '@angular/common';
 import { Component, input, OnInit } from '@angular/core';
 import { Product } from '../../models/product';
 import { RouterLink } from '@angular/router';
+import { optimizedImageUrl } from '../../optimized-image-url';
 
 @Component({
   selector: 'app-product-offer',
@@ -10,6 +11,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ProductOfferComponent implements OnInit {
   product = input.required<Product>();
+  imageUrl = optimizedImageUrl;
 
   discount: number = 0;
 

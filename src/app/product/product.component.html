@@ -6,7 +6,7 @@
         @if (product?.urlImg) {
         <img
           class="size-full object-contain object-center"
-          [src]="product.urlImg"
+          [src]="imageUrl(product.urlImg, 768)"
           [alt]="product.name"
           width="384"
           height="384"
