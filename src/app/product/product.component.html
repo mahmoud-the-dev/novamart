@@ -88,10 +88,7 @@
         </h3>
         }
       </div>
-      <div
-        class="mt-5 text-gray-500 format-strong:text-gray-700 format-li:mb-2 format-p:mb-4"
-        [innerHTML]="product.description"
-      ></div>
+      <p class="mt-5 text-gray-500">{{ product.description }}</p>
       <div class="mt-5 flex gap-2">
         <button
           (click)="addToCart(product)"
