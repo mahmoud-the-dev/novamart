@@ -1,8 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { CartComponent } from './cart/cart.component';
-import { ProductComponent } from './product/product.component';
-import { PaymentSuccessComponent } from './payment/payment-success/payment-success.component';
 
 export const routes: Routes = [
   {
@@ -11,14 +8,19 @@ export const routes: Routes = [
   },
   {
     path: 'cart',
-    component: CartComponent,
+    loadComponent: () =>
+      import('./cart/cart.component').then((m) => m.CartComponent),
   },
   {
     path: 'products/:id',
-    component: ProductComponent,
+    loadComponent: () =>
+      import('./product/product.component').then((m) => m.ProductComponent),
   },
   {
     path: 'PaymentSuccess',
-    component: PaymentSuccessComponent,
+    loadComponent: () =>
+      import('./payment/payment-success/payment-success.component').then(
+        (m) => m.PaymentSuccessComponent
+      ),
   },
 ];
