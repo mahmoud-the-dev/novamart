@@ -20,7 +20,7 @@
       <div class="relative h-56 overflow-hidden rounded-lg sm:h-96">
         @for (productOffer of productOffers; track productOffer.id; let index = $index) {
         <div class="mt-8 sm:mt-28 lg:mt-24" [class.hidden]="index !== activeOfferIndex()">
-          <app-product-offer [product]="productOffer" />
+          <app-product-offer [product]="productOffer" [priority]="index === 0" />
         </div>
         }
       </div>

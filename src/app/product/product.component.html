@@ -6,8 +6,8 @@
         @if (product?.urlImg) {
         <img
           class="object-contain object-center"
-          [src]="product.urlImg"
-          alt="Product Image"
+          [ngSrc]="optimizedImageUrl(product.urlImg, 768)"
+          [alt]="product.name"
           priority
           fill
         />
@@ -15,8 +15,8 @@
         <img
           priority
           fill
-          ngSrc="/img/placeholder.jpg"
-          alt="Placeholder Image"
+          ngSrc="/svg/logo.svg"
+          alt="NovaMart"
         />
         }
       </div>
