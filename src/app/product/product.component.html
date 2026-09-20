@@ -75,5 +75,11 @@
     <p class="mt-2 text-gray-500">This product may no longer be available.</p>
     <a routerLink="/" class="mt-4 inline-flex text-teal-600 underline">Continue shopping</a>
   </div>
+  } @else if (productLoadError()) {
+  <div class="text-center py-10">
+    <h1 class="text-2xl font-bold">Product temporarily unavailable</h1>
+    <p class="mt-2 text-gray-500">Please try again shortly.</p>
+    <a routerLink="/" class="mt-4 inline-flex text-teal-600 underline">Continue shopping</a>
+  </div>
   }
 </main>
