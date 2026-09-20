@@ -1,16 +1,18 @@
 import { Component, input, OnInit, output } from '@angular/core';
 import { CartProduct } from '../../../shared/models/cart-product';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { optimizedImageUrl } from '../../../shared/image-url';
 
 @Component({
   selector: 'app-cart-product',
-  imports: [CurrencyPipe, RouterLink],
+  imports: [CurrencyPipe, NgOptimizedImage, RouterLink],
   templateUrl: './cart-product.component.html',
 })
 export class CartProductComponent implements OnInit {
   cartProduct = input.required<CartProduct>();
   total: number = 0;
+  optimizedImageUrl = optimizedImageUrl;
 
   updateCartEvent = output<void>();
 
