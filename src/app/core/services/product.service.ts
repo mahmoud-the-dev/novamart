@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Product } from '../../shared/models/product';
-import { BehaviorSubject, Observable, map, of, tap } from 'rxjs';
+import { Observable, map, of, shareReplay, tap } from 'rxjs';
 import { ProductApiService } from './product-api.service';
 
 @Injectable({
@@ -10,20 +10,17 @@ export class ProductService {
   private productApiService = inject(ProductApiService);
 
   private productsCache: Product[] = [];
-  private productsSubject = new BehaviorSubject<Product[]>([]);
-  products$ = this.productsSubject.asObservable();
+  private readonly products$ = this.productApiService.getProducts().pipe(
+    tap((products) => (this.productsCache = products)),
+    shareReplay({ bufferSize: 1, refCount: false })
+  );
 
   getAll(): Observable<Product[]> {
     if (this.productsCache.length > 0) {
       return of(this.productsCache);
     }
 
-    return this.productApiService.getProducts().pipe(
-      tap((products: Product[]) => {
-        this.productsCache = products;
-        this.productsSubject.next(products);
-      })
-    );
+    return this.products$;
   }
 
   getOffers(): Observable<Product[]> {
