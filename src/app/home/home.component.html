@@ -8,11 +8,13 @@
         Shop laptops, desktops, monitors, tablets, PC gaming, hard drives and
         storage, accesories and more.
       </p>
-      <button
+      <a
+        routerLink="/"
+        fragment="products"
         class="text-gray-700 rounded-md border border-gray-500 px-4 py-2 w-fit focus:ring-4 focus:ring-gray-200"
       >
         View More
-      </button>
+      </a>
     </article>
     @if (productOffers$ | async; as productOffers) {
     <article class="relative w-full max-w-screen-sm mx-auto">
@@ -80,7 +82,7 @@
     </article>
     }
   </section>
-  <section class="my-4 space-y-4 w-full">
+  <section id="products" class="my-4 space-y-4 w-full">
     <h2 class="text-center font-bold text-gray-950 text-3xl sm:text-4xl">
       Pick Your Favorite Product
     </h2>

@@ -6,10 +6,11 @@ import { ProductService } from '../core/services/product.service';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { SeoService } from '../core/services/seo.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [ProductOfferComponent, HomeProductComponent, AsyncPipe],
+  imports: [ProductOfferComponent, HomeProductComponent, AsyncPipe, RouterLink],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {

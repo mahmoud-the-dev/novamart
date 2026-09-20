@@ -46,7 +46,7 @@
               </p>
             </div>
           </div>
-          } @else { @for (cartProduct of cartProducts; track $index) {
+          } @else { @for (cartProduct of cartProducts; track cartProduct.product.id) {
           <app-cart-product
             (updateCartEvent)="updateCart()"
             [cartProduct]="cartProduct"

@@ -3,10 +3,11 @@ import { CartProductComponent } from './components/cart-product/cart-product.com
 import { CurrencyPipe } from '@angular/common';
 import { CartProduct } from '../shared/models/cart-product';
 import { SeoService } from '../core/services/seo.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
-  imports: [CartProductComponent, CurrencyPipe],
+  imports: [CartProductComponent, CurrencyPipe, RouterLink],
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
