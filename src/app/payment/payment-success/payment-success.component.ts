@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartProduct } from '../../shared/models/cart-product';
 import { PurchaseService } from '../../core/services/purchase.service';
+import { SeoService } from '../../core/services/seo.service';
 
 @Component({
   selector: 'app-payment-success',
@@ -10,8 +11,10 @@ import { PurchaseService } from '../../core/services/purchase.service';
 })
 export class PaymentSuccessComponent implements OnInit {
   private readonly purchaseService = inject(PurchaseService);
+  private readonly seo = inject(SeoService);
 
   ngOnInit(): void {
+    this.seo.setPage('Payment Confirmation | NovaMart', 'Payment confirmation.', '/PaymentSuccess', false);
     const cartProducts: CartProduct[] = JSON.parse(
       localStorage.getItem('cart-products') as string
     );

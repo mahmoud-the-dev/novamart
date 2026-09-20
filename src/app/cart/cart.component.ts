@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CartProductComponent } from './components/cart-product/cart-product.component';
 import { CurrencyPipe } from '@angular/common';
 import { CartProduct } from '../shared/models/cart-product';
+import { SeoService } from '../core/services/seo.service';
 
 @Component({
   selector: 'app-cart',
@@ -9,10 +10,12 @@ import { CartProduct } from '../shared/models/cart-product';
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
+  private readonly seo = inject(SeoService);
   cartProducts: CartProduct[] = [];
   total: number = 0;
 
   ngOnInit(): void {
+    this.seo.setPage('Shopping Cart | NovaMart', 'Review the items in your NovaMart cart.', '/cart', false);
     this.updateCart();
   }
 

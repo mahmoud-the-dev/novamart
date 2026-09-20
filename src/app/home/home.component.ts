@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ProductOfferComponent } from '../shared/components/product-offer/product-offer.component';
 import { Product } from '../shared/models/product';
 import { HomeProductComponent } from './components/home-product/home-product.component';
 import { ProductService } from '../core/services/product.service';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
+import { SeoService } from '../core/services/seo.service';
 
 @Component({
   selector: 'app-home',
@@ -14,14 +14,18 @@ import { Observable } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   productService = inject(ProductService);
-  titleService = inject(Title);
+  seo = inject(SeoService);
 
   products$: Observable<Product[]> = this.productService.getAll();
   productOffers$: Observable<Product[]> = this.productService.getOffers();
   activeOfferIndex = signal(0);
 
   ngOnInit(): void {
-    this.titleService.setTitle('NovaMart');
+    this.seo.setPage(
+      'NovaMart | Electronics, Gaming Gear & Smart Devices',
+      'Shop electronics, gaming gear, smart devices, and accessories at NovaMart.',
+      '/'
+    );
   }
 
   showPreviousOffer(numberOfOffers: number): void {

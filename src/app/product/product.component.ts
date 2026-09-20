@@ -1,11 +1,11 @@
 import { Component, inject, input, OnInit } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
 import { Product } from '../shared/models/product';
 import { CurrencyPipe, AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { ProductService } from '../core/services/product.service';
 import { CartProduct } from '../shared/models/cart-product';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { optimizedImageUrl } from '../shared/image-url';
+import { SeoService } from '../core/services/seo.service';
 
 @Component({
   selector: 'app-product',
@@ -15,13 +15,14 @@ import { optimizedImageUrl } from '../shared/image-url';
 export class ProductComponent implements OnInit{
   id = input<string>('');
   productService = inject(ProductService);
-  private meta = inject(Meta);
+  private seo = inject(SeoService);
   product$!: Observable<Product | undefined>;
   optimizedImageUrl = optimizedImageUrl;
 
   ngOnInit(): void {
-    this.meta.updateTag({ name: 'robots', content: 'noindex, follow' });
-    this.product$ = this.productService.getById(this.id());
+    this.product$ = this.productService
+      .getById(this.id())
+      .pipe(tap((product) => product && this.seo.setProduct(product)));
   }
 
   addToCart(product: Product) {
