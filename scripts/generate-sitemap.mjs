@@ -8,12 +8,15 @@ function toUrlEntry(path, priority) {
 }
 
 try {
-  const response = await fetch(productsUrl);
+  const response = await fetch(productsUrl, { signal: AbortSignal.timeout(10_000) });
   if (!response.ok) {
     throw new Error(`Catalog request failed with ${response.status}`);
   }
 
   const products = await response.json();
+  if (!Array.isArray(products) || products.some((product) => !product.id)) {
+    throw new Error('Catalog response does not contain valid product IDs');
+  }
   const entries = [
     toUrlEntry('/', '1.0'),
     ...products.map((product) =>
@@ -24,6 +27,5 @@ try {
 
   await writeFile(new URL('../public/sitemap.xml', import.meta.url), sitemap);
 } catch (error) {
-  console.error('Unable to generate sitemap:', error);
-  process.exitCode = 1;
+  console.warn('Unable to refresh sitemap; using the checked-in sitemap:', error);
 }
