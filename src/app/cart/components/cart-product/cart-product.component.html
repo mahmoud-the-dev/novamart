@@ -13,7 +13,7 @@
       />
     </a>
 
-    <label class="sr-only">Choose quantity:</label>
+    <label [for]="'quantity-' + cartProduct().product.id" class="sr-only">Choose quantity:</label>
     <div class="flex items-center justify-between md:order-3 md:justify-end">
       <div class="flex items-center">
         <button
@@ -39,6 +39,7 @@
         </button>
         <input
           type="text"
+          [id]="'quantity-' + cartProduct().product.id"
           class="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
           placeholder=""
           [value]="cartProduct().quantity"
