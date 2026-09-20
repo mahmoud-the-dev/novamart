@@ -1,12 +1,11 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ProductOfferComponent } from '../shared/components/product-offer/product-offer.component';
 import { Product } from '../shared/models/product';
 import { HomeProductComponent } from './components/home-product/home-product.component';
 import { ProductService } from '../core/services/product.service';
 import { AsyncPipe } from '@angular/common';
-import { Observable, tap } from 'rxjs';
-import { initFlowbite } from 'flowbite';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -15,36 +14,25 @@ import { initFlowbite } from 'flowbite';
 })
 export class HomeComponent implements OnInit {
   productService = inject(ProductService);
-  cdr = inject(ChangeDetectorRef);
   titleService = inject(Title);
 
   products$: Observable<Product[]> = this.productService.getAll();
-  productOffers$: Observable<Product[]>;
-
-  private offersLoaded = false;
-  private flowbiteInitialized = false;
-
-  constructor() {
-    this.productOffers$ = this.productService.getOffers().pipe(
-      tap((offers) => {
-        if (offers && offers.length > 0) {
-          this.offersLoaded = true;
-          setTimeout(() => this.initializeFlowbite(), 0);
-        }
-      })
-    );
-  }
+  productOffers$: Observable<Product[]> = this.productService.getOffers();
+  activeOfferIndex = signal(0);
 
   ngOnInit(): void {
     this.titleService.setTitle('NovaMart');
   }
 
-  private initializeFlowbite(): void {
-    if (!this.flowbiteInitialized) {
-      console.log('Initializing Flowbite...');
-      initFlowbite();
-      this.flowbiteInitialized = true;
-      this.cdr.detectChanges();
-    }
+  showPreviousOffer(numberOfOffers: number): void {
+    this.activeOfferIndex.update((index) =>
+      index === 0 ? numberOfOffers - 1 : index - 1
+    );
+  }
+
+  showNextOffer(numberOfOffers: number): void {
+    this.activeOfferIndex.update((index) =>
+      index === numberOfOffers - 1 ? 0 : index + 1
+    );
   }
 }

@@ -14,18 +14,12 @@
         View More
       </button>
     </article>
-    <article
-      id="controls-carousel"
-      class="relative w-full max-w-screen-sm mx-auto"
-      data-carousel="static"
-    >
+    @if (productOffers$ | async; as productOffers) {
+    <article class="relative w-full max-w-screen-sm mx-auto">
       <!-- Carousel wrapper -->
       <div class="relative h-56 overflow-hidden rounded-lg sm:h-96">
-        @for (productOffer of productOffers$ | async; track productOffer.id) {
-        <div
-          class="mt-8 sm:mt-28 lg:mt-24 hidden duration-700 ease-in-out"
-          data-carousel-item
-        >
+        @for (productOffer of productOffers; track productOffer.id; let index = $index) {
+        <div class="mt-8 sm:mt-28 lg:mt-24" [class.hidden]="index !== activeOfferIndex()">
           <app-product-offer [product]="productOffer" />
         </div>
         }
@@ -33,8 +27,8 @@
       <!-- Slider controls -->
       <button
         type="button"
+        (click)="showPreviousOffer(productOffers.length)"
         class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-        data-carousel-prev
       >
         <span
           class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-500 group-hover:bg-gray-400 group-focus:ring-4 group-focus:ring-gray-300 group-focus:outline-none"
@@ -59,8 +53,8 @@
       </button>
       <button
         type="button"
+        (click)="showNextOffer(productOffers.length)"
         class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-        data-carousel-next
       >
         <span
           class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-500 group-hover:bg-gray-400 group-focus:ring-4 group-focus:ring-gray-300 group-focus:outline-none"
@@ -84,6 +78,7 @@
         </span>
       </button>
     </article>
+    }
   </section>
   <section class="my-4 space-y-4 w-full">
     <h2 class="text-center font-bold text-gray-950 text-3xl sm:text-4xl">
