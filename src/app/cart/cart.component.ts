@@ -25,6 +25,7 @@ export class CartComponent implements OnInit {
       JSON.parse(localStorage.getItem('cart-products') as string) || [];
 
     this.cartProducts = storagedProducts;
+    this.total = 0;
 
     if (this.cartProducts.length > 0) {
       this.total = this.cartProducts.reduce(
